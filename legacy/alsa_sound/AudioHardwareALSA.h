@@ -512,6 +512,8 @@ public:
     // the output has exited standby
     virtual status_t    getRenderPosition(uint32_t *dspFrames);
 
+    virtual status_t    getPresentationPosition(uint64_t *frames, struct timespec *timestamp);
+
     status_t            open(int mode);
     status_t            close();
 
@@ -580,6 +582,8 @@ public:
     // return the number of audio frames written by the audio dsp to DAC since
     // the output has exited standby
     virtual status_t    getRenderPosition(uint32_t *dspFrames);
+
+    virtual status_t    getPresentationPosition(uint64_t *frames, struct timespec *timestamp);
 
     virtual status_t    getNextWriteTimestamp(int64_t *timestamp);
 
@@ -871,7 +875,9 @@ public:
 
     void pauseIfUseCaseTunnelOrLPA();
     void resumeIfUseCaseTunnelOrLPA();
-
+#ifdef HWDEP_CAL_ENABLED
+    void initCodecCalib(void);
+#endif
 private:
     status_t     openExtOutput(int device);
     status_t     closeExtOutput(int device);
